@@ -1,18 +1,28 @@
 <?php
-// delete_task.php
+require("connection.php");
+session_start();
 
-    require("connection.php");
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["task_id"]) && isset($_SESSION["id"])) {
+        $task_id = $_POST["task_id"];
+        $user_id = $_SESSION["id"];
 
-    // Get the task ID from the Vanilla Javascript
-    $task_id = $_POST["task_id"];
+        // Use prepared statement to prevent SQL injection
+        $query = "DELETE FROM `user todo list` WHERE task_id = ? AND id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ii", $task_id, $user_id);
 
-    // Perform the deletion in the database
-    $query = "DELETE FROM `user todo list` WHERE task_id = '$task_id'";
-    $execute = mysqli_query($conn, $query);
+        if ($stmt->execute()) {
+            echo "Task deleted successfully";
+        } else {
+            echo "Error deleting task: " . $stmt->error;
+        }
 
-    if ($execute) {
-        echo "Task deleted successfully";
+        $stmt->close();
     } else {
-        echo "Error deleting task";
+        echo "Invalid request: task ID or session missing.";
     }
+} else {
+    echo "Invalid request method.";
+}
 ?>
