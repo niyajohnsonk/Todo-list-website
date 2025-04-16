@@ -128,38 +128,54 @@
       </div>
 
       <?php
-        require("connection.php");
-        $id = $_SESSION["id"];
-        echo '<div class="mt-5 text-start">
-              <h1>Your Tasks</h1>
-              <ul class="list-group">';
-        $query = "SELECT * FROM `user todo list` WHERE id = '$id'";
-        $execute = mysqli_query($conn, $query);
-        while ($rows = mysqli_fetch_assoc($execute)) {
-          $task_title = $rows["task_title"];
-          $task_description = $rows["task_description"];
-          $task_id = $rows["task_id"];
+require("connection.php");
+session_start();
 
-          echo '<li class="list-group-item">
-                  <strong>' . htmlspecialchars($task_title) . '</strong><br>' . htmlspecialchars($task_description) . '
-                  <div class="d-flex justify-content-end">
-                    <button type="button" onclick="updateTask(' . $task_id . ', \'' . addslashes($task_title) . '\', \'' . addslashes($task_description) . '\')" class="btn btn-primary update">Edit</button>
-                    <button type="button" onclick="deleteTask(' . $task_id . ')" class="btn btn-danger delete">Delete</button>
-                  </div>
-                </li>';
-        }
-        echo '</ul></div>';
-        if (isset($_POST["submit"])) {
-            $task_title = $_POST["task_title"];
-            $task_description = $_POST["task_description"];
-            $query = "INSERT INTO `user todo list` (id, task_title, task_description) VALUES ('$id', '$task_title', '$task_description')";
-            mysqli_query($conn, $query);
-        }
-      } else {
-          echo '<p>Please login to continue</p>';
-          echo '<a href="login.php" class="btn btn-success logout-button">Login</a>';
-      }
-    ?>
+if (isset($_SESSION["id"])) {
+    $id = $_SESSION["id"];
+
+    // FIRST: Handle form submission before HTML output
+    if (isset($_POST["submit"])) {
+        $task_title = $_POST["task_title"];
+        $task_description = $_POST["task_description"];
+
+        $query = "INSERT INTO `user todo list` (id, task_title, task_description) VALUES ('$id', '$task_title', '$task_description')";
+        mysqli_query($conn, $query);
+
+        // Redirect to avoid resubmission
+        header("Location: dashboard.php");
+        exit();
+    }
+
+    // NOW show the tasks
+    echo '<div class="mt-5 text-start">
+            <h1>Your Tasks</h1>
+            <ul class="list-group">';
+
+    $query = "SELECT * FROM `user todo list` WHERE id = '$id'";
+    $execute = mysqli_query($conn, $query);
+
+    while ($rows = mysqli_fetch_assoc($execute)) {
+        $task_title = $rows["task_title"];
+        $task_description = $rows["task_description"];
+        $task_id = $rows["task_id"];
+
+        echo '<li class="list-group-item">
+                <strong>' . htmlspecialchars($task_title) . '</strong><br>' . htmlspecialchars($task_description) . '
+                <div class="d-flex justify-content-end mt-2">
+                    <button type="button" onclick="updateTask(' . $task_id . ', \'' . addslashes($task_title) . '\', \'' . addslashes($task_description) . '\')" class="btn btn-sm btn-primary me-2">Edit</button>
+                    <button type="button" onclick="deleteTask(' . $task_id . ')" class="btn btn-sm btn-danger">Delete</button>
+                </div>
+              </li>';
+    }
+
+    echo '</ul></div>';
+} else {
+    echo '<p>Please login to continue</p>';
+    echo '<a href="login.php" class="btn btn-success logout-button">Login</a>';
+}
+?>
+
   </div>
 
   <script>
