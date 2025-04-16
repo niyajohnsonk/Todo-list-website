@@ -22,7 +22,7 @@
 
     .form {
       padding: 2rem;
-      background-color: #f8f9fa;
+      background-color: #FFF4B7;
       border-radius: 10px;
       margin-top: 20px;
     }
@@ -30,6 +30,12 @@
     .form-label {
       float: left;
     }
+
+    .btn-custom-blue {
+      background-color: #000B58;
+      color: white;
+      border: none;
+  } 
   </style>
 </head>
 
