@@ -14,7 +14,7 @@
     }
 
     .jumbotron {
-      background-color: #007bff;
+      background-color: #000B58;
       color: #ffffff;
       padding: 1rem;
       border-radius: 10px;
@@ -65,7 +65,7 @@
         </div>
         <div class="mb-3 text-start">
           <label class="form-label">Choose your designation</label><br>
-          <input type="radio" name="designation" value="Student" required> Student<br>
+          <input type="radio" name="designation" value="Student" required> Student
           <input type="radio" name="designation" value="Professional"> Professional
         </div>
         <button type="submit" name="submit" class="btn btn-primary w-100">Signup</button>
