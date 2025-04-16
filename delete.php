@@ -2,27 +2,26 @@
 require("connection.php");
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST["task_id"]) && isset($_SESSION["id"])) {
-        $task_id = $_POST["task_id"];
-        $user_id = $_SESSION["id"];
+// Ensure it's a POST request and the session is valid
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["task_id"]) && isset($_SESSION["id"])) {
+    $task_id = $_POST["task_id"];
+    $user_id = $_SESSION["id"];
 
-        // Use prepared statement to prevent SQL injection
-        $query = "DELETE FROM `user todo list` WHERE task_id = ? AND id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ii", $task_id, $user_id);
+    // Use prepared statement to delete only the user's task
+    $query = "DELETE FROM `user todo list` WHERE task_id = ? AND id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ii", $task_id, $user_id);
 
-        if ($stmt->execute()) {
-            echo "Task deleted successfully";
-        } else {
-            echo "Error deleting task: " . $stmt->error;
-        }
-
-        $stmt->close();
+    if ($stmt->execute()) {
+        echo "Task deleted successfully";
     } else {
-        echo "Invalid request: task ID or session missing.";
+        http_response_code(500); // Tell jQuery the request failed
+        echo "Error deleting task";
     }
+
+    $stmt->close();
 } else {
-    echo "Invalid request method.";
+    http_response_code(400); // Bad request
+    echo "Invalid request.";
 }
 ?>
