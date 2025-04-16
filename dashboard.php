@@ -1,209 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Bootstrap & jQuery -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        .container {
-    text-align: center;
-    margin: auto;
-}
+  <style>
+    body {
+      background-color: #000B58;
+      color: #FFF4B7;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-h1 {
-    color: #007bff; /* Heading color */
-}
-.logout-button {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-        }
-    </style>
+    .container {
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background-color: #003161;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 1s ease;
+    }
+
+    .logout-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #FF6B6B;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .logout-button:hover {
+      background-color: #e74c3c;
+    }
+
+    h1 {
+      color: #FFF4B7;
+      font-size: 2.5rem;
+    }
+
+    label {
+      color: #FFF4B7;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background-color: #006A67;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #004e4b;
+    }
+
+    .btn-danger {
+      background-color: #FF6B6B;
+      border: none;
+    }
+
+    .btn-danger:hover {
+      background-color: #e74c3c;
+    }
+
+    .list-group-item {
+      background-color: #002244;
+      border: 1px solid #003161;
+      color: #FFF4B7;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .update, .delete {
+      font-size: 0.9rem;
+      padding: 6px 14px;
+      margin-left: 10px;
+    }
+
+    .img-thumbnail {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 1rem 0;
+      border: 3px solid #FFF4B7;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <?php
-            // Start the session (if not already started)
-            session_start();
 
-            // Check if the email is set in the session
-            if(isset($_SESSION["email"])) {
-                $firstname = $_SESSION["firstname"];
-                $image = $_SESSION["image"];
-                echo "<h1>Welcome, $firstname</h1>";  
-                echo "<img src='$image' alt='Your Profile Photo' class='img-thumbnail'>";
-                ?>
-             <a href="logout.php" class="btn btn-danger logout-button" id="logoutLink">Logout</a>
-                <div class="container mt-5">
-                <h1>To-Do List</h1>
-                <form action="dashboard.php" method="POST">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Task Title</label>
-                        <input type="text" name="task_title" class="form-control" id="task" required>
-                    </div>
-                    <div class="mb-3">
-                    <label for="task" class="form-label">Task Description:</label>
-                    <textarea name="task_description" class="form-control" id="task" required></textarea>
-                </div>
-                    <button type="submit" onclick = "refresh()" name ="submit" class="btn btn-primary">Add Task</button>
-                </form>
-            </div>
-              <!-- Displaying Data -->
-        <?php 
+<body>
+  <div class="container text-center">
+    <?php
+      session_start();
+      if (isset($_SESSION["email"])) {
+          $firstname = $_SESSION["firstname"];
+          $image = $_SESSION["image"];
+          echo "<h1>Welcome, $firstname</h1>";
+          echo "<img src='$image' alt='Your Profile Photo' class='img-thumbnail'>";
+    ?>
+      <a href="logout.php" class="logout-button" id="logoutLink">Logout</a>
+
+      <div class="mt-4">
+        <h1>Add a New Task</h1>
+        <form action="dashboard.php" method="POST" class="text-start">
+          <div class="mb-3">
+            <label for="task" class="form-label">Task Title</label>
+            <input type="text" name="task_title" class="form-control" id="task" required>
+          </div>
+          <div class="mb-3">
+            <label for="task" class="form-label">Task Description</label>
+            <textarea name="task_description" class="form-control" id="task" required></textarea>
+          </div>
+          <button type="submit" onclick="refresh()" name="submit" class="btn btn-primary">Add Task</button>
+        </form>
+      </div>
+
+      <?php
         require("connection.php");
         $id = $_SESSION["id"];
-        echo '<div class="container mt-5">
-        <h1>All tasks</h1>
-        <ul class="list-group">';
-    
-    // Fetch and display tasks from the database
-    $query = "SELECT * FROM `user todo list` WHERE id = '$id'";
-    $execute = mysqli_query($conn, $query);
-    while ($rows = mysqli_fetch_assoc($execute)) {
-        $task_title = $rows["task_title"];
-        $task_description = $rows["task_description"];
-        $task_id = $rows['task_id'];
+        echo '<div class="mt-5 text-start">
+              <h1>Your Tasks</h1>
+              <ul class="list-group">';
+        $query = "SELECT * FROM `user todo list` WHERE id = '$id'";
+        $execute = mysqli_query($conn, $query);
+        while ($rows = mysqli_fetch_assoc($execute)) {
+          $task_title = $rows["task_title"];
+          $task_description = $rows["task_description"];
+          $task_id = $rows["task_id"];
 
-        // Output each task as a list item
-        echo '<li class="list-group-item">' . $task_title . '<br/>' . $task_description;
-        ?>
-        <div class="d-flex justify-content-end">
-            <button type="button" onclick="updateTask(<?php echo $task_id; ?>, '<?php echo $task_title; ?>', '<?php echo $task_description; ?>')" class="btn btn-primary update">Edit</button>
-            <button type="button" onclick="deleteTask(<?php echo $task_id; ?>)" class="btn btn-danger ms-2 delete">Delete</button>
-        </div>
+          echo '<li class="list-group-item">
+                  <strong>' . htmlspecialchars($task_title) . '</strong><br>' . htmlspecialchars($task_description) . '
+                  <div class="d-flex justify-content-end">
+                    <button type="button" onclick="updateTask(' . $task_id . ', \'' . addslashes($task_title) . '\', \'' . addslashes($task_description) . '\')" class="btn btn-primary update">Edit</button>
+                    <button type="button" onclick="deleteTask(' . $task_id . ')" class="btn btn-danger delete">Delete</button>
+                  </div>
+                </li>';
+        }
+        echo '</ul></div>';
+        if (isset($_POST["submit"])) {
+            $task_title = $_POST["task_title"];
+            $task_description = $_POST["task_description"];
+            $query = "INSERT INTO `user todo list` (id, task_title, task_description) VALUES ('$id', '$task_title', '$task_description')";
+            mysqli_query($conn, $query);
+        }
+      } else {
+          echo '<p>Please login to continue</p>';
+          echo '<a href="login.php" class="btn btn-success logout-button">Login</a>';
+      }
+    ?>
+  </div>
 
-        <?php
-          };     
-        echo '  </li>
-        </ul>';
-          ?>  
-    </div>
-        <?php 
-    //inserting data in table
-    if(isset($_POST["submit"])){
-        $id = $_SESSION["id"];
-        $task_title = $_POST["task_title"];
-        $task_description = $_POST["task_description"];
-        $query = "INSERT INTO `user todo list` (id, task_title, task_description) VALUES ('$id', '$task_title', '$task_description')";
-        $execute = mysqli_query($conn,$query);
-    };
-}
-    else {
-        // Handle the case where the first name is not set in the session
-        echo '<p>Please Login to continue</p>';
-        echo '<a href="login.php" class="btn btn-success logout-button" id="logoutLink">Login</a>';
-    };
-
-        ?>
-    </div>
-    <script>
-    function refresh(){
-        location.reload();
+  <script>
+    function refresh() {
+      setTimeout(() => location.reload(), 300);
     }
+
     function deleteTask(taskId) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "delete.php", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Reload the page or update the task list on success
-                location.reload();
-            } else if (xhr.readyState == 4 && xhr.status != 200) {
-                console.error("Error deleting task: " + xhr.status);
-            }
-        };
-
-        // Prepare the data to be sent in the request
-        var data = "task_id=" + encodeURIComponent(taskId);
-        
-        // Send the request with the data
-        xhr.send(data);
+      $.post("delete.php", { task_id: taskId }, function () {
+        location.reload();
+      }).fail(function () {
+        alert("Error deleting task.");
+      });
     }
+
     function updateTask(taskId, tasktitle, taskdescription) {
-    // Prompt the user for new title and description
-    var newTitle = prompt("Enter the new task title:");
-    var newDescription = prompt("Enter the new task description:");
+      var newTitle = prompt("Edit title:", tasktitle);
+      var newDescription = prompt("Edit description:", taskdescription);
 
-    if (newTitle !== null && newDescription !== null) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "update.php", true);
-        xhr.setRequestHeader("Content-type", "application/json");
+      if (newTitle === null && newDescription === null) return;
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Reload the page or update the task list on success
-                location.reload();
-            } else if (xhr.readyState == 4 && xhr.status != 200) {
-                console.error("Error updating task: " + xhr.status);
-            }
-        };
-        // Prepare the data to be sent in the request as JSON
-        var data = {
-            task_id: taskId,
-            title: newTitle,
-            description: newDescription
-        };
-
-        // Send the request with the data
-        xhr.send(JSON.stringify(data));
-    } 
-    else if (newTitle == null && newDescription !== null) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "update.php", true);
-        xhr.setRequestHeader("Content-type", "application/json");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Reload the page or update the task list on success
-                location.reload();
-            } else if (xhr.readyState == 4 && xhr.status != 200) {
-                console.error("Error updating task: " + xhr.status);
-            }
-        };
-        // Prepare the data to be sent in the request as JSON
-        var data = {
-            task_id: taskId,
-            title: tasktitle,
-            description: newDescription
-        };
-
-        // Send the request with the data
-        xhr.send(JSON.stringify(data));
+      $.ajax({
+        url: "update.php",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+          task_id: taskId,
+          title: newTitle || tasktitle,
+          description: newDescription || taskdescription
+        }),
+        success: function () {
+          location.reload();
+        },
+        error: function () {
+          alert("Failed to update task.");
+        }
+      });
     }
-    else if (newTitle !== null && newDescription == null) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "update.php", true);
-        xhr.setRequestHeader("Content-type", "application/json");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Reload the page or update the task list on success
-                location.reload();
-            } else if (xhr.readyState == 4 && xhr.status != 200) {
-                console.error("Error updating task: " + xhr.status);
-            }
-        };
-        // Prepare the data to be sent in the request as JSON
-        var data = {
-            task_id: taskId,
-            title: newTitle,
-            description: taskdescription
-        };
-
-        // Send the request with the data
-        xhr.send(JSON.stringify(data));
-    } 
-    }
-</script>
+  </script>
 </body>
 </html>
+
