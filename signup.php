@@ -8,10 +8,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <style>
     body {
-      background-color: #f5f5f5;
+      background-color: #000B58;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #FFF4B7;
     }
-    
+
     .container {
       max-width: 600px;
       margin: auto;
@@ -19,11 +20,11 @@
     }
 
     .jumbotron {
-      background-color: #000B58;
-      color: #ffffff;
+      background-color: #003161;
+      color: #FFF4B7;
       padding: 1.5rem;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
     }
 
     .form {
@@ -31,7 +32,8 @@
       background-color: #FFF4B7;
       border-radius: 10px;
       margin-top: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+      color: #003161;
     }
 
     .form-label {
@@ -44,6 +46,7 @@
       background-color: #006A67;
       border-color: #006A67;
       transition: all 0.3s ease;
+      color: white;
     }
 
     .btn-primary:hover {
@@ -58,8 +61,8 @@
     }
 
     .btn-success:hover {
-      background-color: #002548;
-      border-color: #002548;
+      background-color: #001e40;
+      border-color: #001e40;
     }
 
     hr {
@@ -86,6 +89,10 @@
 
     h5 {
       color: #003161;
+    }
+
+    .alert {
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -163,7 +170,7 @@
       $no_of_rows = mysqli_num_rows($execute);
 
       if ($no_of_rows > 0) {
-        echo '<div class="alert alert-warning mt-4" role="alert">
+        echo '<div class="alert alert-warning" role="alert">
                 <strong>Account already exists!</strong> Try logging in instead.
               </div>';
       } else {
@@ -175,7 +182,7 @@
           header("Location: login.php");
           exit();
         } else {
-          echo "<div class='alert alert-danger mt-3'>Error: " . mysqli_error($conn) . "</div>";
+          echo "<div class='alert alert-danger'>Error: " . mysqli_error($conn) . "</div>";
         }
       }
     }
@@ -183,6 +190,7 @@
     ?>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xssHTMqFuxZjvKGbNlDA5Z6GqyslT7MfpiFJfuFU37FkN2EEu7b8dGf4D1eBD99D" crossorigin="anonymous"></script>
 </body>
+
 </html>

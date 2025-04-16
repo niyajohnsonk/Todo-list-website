@@ -7,18 +7,39 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <style>
     body {
-      background-color: #f8f9fa;
-      color: #333;
+      background-color: #000B58;
+      color: #FFF4B7;
     }
     .logout-box {
       margin-top: 100px;
-      background-color: #ffffff;
+      background-color: #003161;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
     }
     h1 {
-      color: #007bff;
+      color: #FFF4B7;
+    }
+    h4 {
+      color: #FFF4B7;
+    }
+    .btn-success {
+      background-color: #006A67;
+      border-color: #006A67;
+    }
+    .btn-success:hover {
+      background-color: #004f4d;
+      border-color: #004f4d;
+    }
+    .btn-primary {
+      background-color: #FFF4B7;
+      border-color: #FFF4B7;
+      color: #003161;
+    }
+    .btn-primary:hover {
+      background-color: #e5e0a3;
+      border-color: #e5e0a3;
+      color: #003161;
     }
   </style>
 </head>
@@ -33,7 +54,7 @@
   <div class="container logout-box">
     <h1>You are logged out!</h1>
     <p class="mt-3">You have been successfully logged out of your account.</p>
-    <hr>
+    <hr class="border-light">
 
     <h4>Already have an account?</h4>
     <a href="login.php" class="btn btn-success mt-2">Login</a>
@@ -45,4 +66,3 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xssHTMqFuxZjvKGbNlDA5Z6GqyslT7MfpiFJfuFU37FkN2EEu7b8dGf4D1eBD99D" crossorigin="anonymous"></script>
 </body>
 </html>
-
